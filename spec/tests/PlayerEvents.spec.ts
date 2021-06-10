@@ -248,18 +248,26 @@ describe('player event tests', () => {
     });
   });
 
-  describe('bitrate tracking', () => {
+  describe('video quality tracking', () => {
     it('report bitrate on event', () => {
       playerMock.eventEmitter.firePlayEvent();
       playerMock.eventEmitter.firePlayingEvent();
-      playerMock.eventEmitter.fireVideoPlaybackQualityChangedEvent(2_400_000);
+      playerMock.eventEmitter.fireVideoPlaybackQualityChangedEvent(2_400_000, 30);
 
       expect(convivaVideoAnalytics.reportPlaybackMetric).toHaveBeenCalledWith(Conviva.Constants.Playback.BITRATE, 2_400);
     });
 
+    it('report framerate on event', () => {
+      playerMock.eventEmitter.firePlayEvent();
+      playerMock.eventEmitter.firePlayingEvent();
+      playerMock.eventEmitter.fireVideoPlaybackQualityChangedEvent(2_400_000, 30);
+
+      expect(convivaVideoAnalytics.reportPlaybackMetric).toHaveBeenCalledWith(Conviva.Constants.Playback.RENDERED_FRAMERATE, 30);
+    });
+
     describe('event order workaround', () => {
       it('track current bitrate on session initialization', () => {
-        playerMock.eventEmitter.fireVideoPlaybackQualityChangedEvent(4_800_000);
+        playerMock.eventEmitter.fireVideoPlaybackQualityChangedEvent(4_800_000, 30);
         playerMock.eventEmitter.firePlayEvent();
         playerMock.eventEmitter.firePlayingEvent();
 

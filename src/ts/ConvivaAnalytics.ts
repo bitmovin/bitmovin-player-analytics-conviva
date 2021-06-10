@@ -631,6 +631,9 @@ export class ConvivaAnalytics {
 
     this.lastSeenBitrate = null;
     this.convivaVideoAnalytics.reportPlaybackMetric(Conviva.Constants.Playback.BITRATE, bitrateKbps);
+    if (event.targetQuality.frameRate) {
+      this.convivaVideoAnalytics.reportPlaybackMetric(Conviva.Constants.Playback.RENDERED_FRAMERATE, event.targetQuality.frameRate);
+    }
   };
 
   private onCustomEvent = (event: PlayerEventBase) => {

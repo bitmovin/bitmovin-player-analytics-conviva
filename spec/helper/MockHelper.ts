@@ -241,7 +241,7 @@ interface EventEmitter {
 
   fireAdErrorEvent(): void;
 
-  fireVideoPlaybackQualityChangedEvent(bitrate: number): void;
+  fireVideoPlaybackQualityChangedEvent(bitrate: number, frameRate: number): void;
 
   fireCastStartedEvent(resuming?: boolean): void;
 
@@ -422,7 +422,7 @@ class PlayerEventHelper implements EventEmitter {
     });
   }
 
-  fireVideoPlaybackQualityChangedEvent(bitrate: number): void {
+  fireVideoPlaybackQualityChangedEvent(bitrate: number, frameRate: number): void {
     this.fireEvent<VideoPlaybackQualityChangedEvent>({
       timestamp: Date.now(),
       type: PlayerEvent.VideoPlaybackQualityChanged,
@@ -437,6 +437,7 @@ class PlayerEventHelper implements EventEmitter {
         bitrate: bitrate,
         width: null,
         height: null,
+        frameRate: frameRate,
       },
     });
   }
